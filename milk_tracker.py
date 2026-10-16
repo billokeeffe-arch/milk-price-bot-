@@ -75,7 +75,7 @@ def build_statistical_forecast(df):
     model = Ridge(alpha=1.0)
     model.fit(X, y)
 
-    latest_features = df[features].iloc[-1:].values
+    latest_features = df[features].iloc[-1:]
     predicted_price = float(model.predict(latest_features)[0])
     current_price = float(df["milk"].iloc[-1])
 
@@ -151,8 +151,9 @@ Model last updated: {date_stamp}.
     msg["Subject"] = f"Milk Price Outlook — {today_str}"
     msg.attach(MIMEText(body, "plain"))
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login(SENDER_EMAIL, EMAIL_PASSWORD)
+    with smtplib.SMTP("smtp.gmail.com", 587, timeout=30) as server:
+        server.starttls()
+        server.login(SENDER_EMAIL.strip(), EMAIL_PASSWORD.strip())
         server.send_message(msg)
 
 def main():
