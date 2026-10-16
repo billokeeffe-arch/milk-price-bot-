@@ -113,7 +113,7 @@ Tone: Down to earth, agricultural advisor, no corporate banker jargon. Max 120 w
 """
     client = genai.Client(api_key=GEMINI_KEY)
     response = client.models.generate_content(
-        model="gemini-2.5-flash",
+        model="gemini-3.8-flash",
         contents=prompt
     )
     return response.text.strip()
